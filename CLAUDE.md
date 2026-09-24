@@ -9,7 +9,7 @@ The `platform` repo: the `runtime`, `build`, and `web` npm packages, Terraform m
 
 ## Rules
 - **Build only what an app needs.** Start with what Budget needs, and add more only when a second app needs the same thing.
-- **Never give this repo AWS credentials.** The only publishing secret is the npm token.
+- **This repo stores no secrets.** No AWS credentials and no npm token. Publishing uses npm trusted publishing (GitHub OIDC) from the release workflow. Never add an `NPM_TOKEN` secret as a workaround.
 - **Keep the packages separate.** `runtime` must never depend on React or esbuild, and `web` must never depend on backend code.
 - **One shared version.** Changes to `build`'s routes JSON output and the Terraform modules that read it must ship in the same release. A breaking change to anything apps depend on (manifest API, handler contract, routes JSON, module inputs, Node major version) needs a `feat!:` PR title.
 - **Types are part of the API.** The generic types behind `defineApp`, the handler contract, and `createClient` need type-level tests (`expectTypeOf`) alongside the runtime tests.

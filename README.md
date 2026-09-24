@@ -19,10 +19,11 @@ The packages are published publicly to npmjs.com as `@sbwp/runtime`, `@sbwp/buil
 ## Versioning and releases
 - **One version for everything.** The packages, modules, and workflows share a single version and a single git tag (e.g. `v1.4.0`), because `build`'s output and the Terraform modules' input have to match.
 - **release-please** keeps a release PR open that updates versions and changelogs. Merging it tags the release and publishes to npm. Versions are never edited by hand.
+- **Trusted publishing:** each package names this repo's release workflow as its trusted publisher on npmjs.com, so CI publishes with GitHub's short-lived OIDC token and adds provenance. No npm token is stored. Each package's first version is published manually, since trusted publishing can only be configured once a package exists. Every package sets `publishConfig.access: "public"`.
 - PR titles follow Conventional Commits. While the version is 0.x, breaking changes bump only the minor version.
 
 ## Security
-This repo never has AWS credentials, only an npm publish token. The reusable workflows run in each calling app's context with that app's own OIDC role.
+This repo stores no secrets: no AWS credentials and no npm token. The reusable workflows run in each calling app's context with that app's own OIDC role.
 
 ## Development
 Planned standard scripts: `pnpm test`, `pnpm lint`, `pnpm build`. Tool versions are pinned in `mise.toml`.
